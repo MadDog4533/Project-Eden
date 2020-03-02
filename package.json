@@ -1,0 +1,27 @@
+{
+  "name": "Eden",
+  "version": "0.0.8-1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "@types/express": "^4.17.2",
+    "@types/mysql": "^2.15.8",
+    "@types/node": "^13.7.0",
+    "@types/terminal-kit": "^1.28.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "terminal-kit": "^1.32.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node lib/app.js && echo Build Success! && npm version prerelease",
+    "recompile": "del /S lib && tsc",
+    "backup": "xcopy /E src ..\\backup\\src",
+    "tsc": "tsc -experimentalDecorators",
+    "tsc:w": "tsc -w -experimentalDecorators",
+    "prepatch": "npm version prepatch",
+    "inspect": "npm test --inspect"
+  },
+  "author": "Korey Shenefield (EnPrime, LLC)",
+  "license": "ISC"
+}
