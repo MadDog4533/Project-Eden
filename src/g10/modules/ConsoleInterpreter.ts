@@ -33,7 +33,7 @@ export default class ConsoleInterpreter extends G10Module {
         this.replServer.context[ident] = obj;
     }
 
-    setPS2(override: string){
+    setPrompt(override: string){
         if (override){
             this.replServer.setPrompt(override);
         } else {
