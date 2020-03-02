@@ -1,0 +1,11 @@
+{
+    "plugin": {
+        "name": "Logger",
+        "options": {
+            "out": {
+                "syntax": "--out",
+                "target": "file"
+            }
+        }
+    }
+}
