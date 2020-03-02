@@ -40,10 +40,12 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
+!node_modules/@types/*
+!node_modules/@types/**/
+!node_modules/@types/**/*
+!node_modules/@types/**/**
 # TypeScript v1 declaration files
 typings/
-!node_modules/@types/*
 
 # TypeScript cache
 *.tsbuildinfo
