@@ -2,6 +2,8 @@ import G10Module = require("../G10Module");
 import { terminal  as term, stringWidth, Terminal, terminal} from "terminal-kit";
 import { WriteStream } from "fs";
 import { WritableOptions } from "stream";
+const G10 = require('../G10');
+import ConsoleInterpreter from "./ConsoleInterpreter";
 
 
 ///
@@ -79,7 +81,7 @@ const ConsoleFactory = {
 
     error(module, ...options: Array<string | Terminal.CTerminal>){
         ConsoleFactory.setLine();
-        term.red('[Error]');
+        term.red('[Error]: ');
         ConsoleFactory.termify(module, options);
     },
 
@@ -95,6 +97,8 @@ const ConsoleFactory = {
     },
 
     setLine(){
+        term.eraseLine();
+        term.column(0);
         return;
     },
 
@@ -148,8 +152,17 @@ const ConsoleFactory = {
                     term(option);
                     continue;
                 }
+            } else if (typeof option == "object") {
+                term('\n');
+                let a = JSON.stringify(option)
+                a = a.replace(/[{]/gi, "\n{\n");
+                a = a.replace(/[}]/gi, "\n}\n");
+                a = a.replace(/[,]/gi, ",\n");
+                term(a);
             }
         }
         term('\n');
+        term(globalThis.G10.interface("ConsoleIntepreter"));
+        //(<ConsoleInterpreter> globalThis.G10.interface("ConsoleIntepreter")).printPrompt();
     }
 }

@@ -41,6 +41,10 @@ export default class ConsoleInterpreter extends G10Module {
         }
     }
 
+    printPrompt(){
+        this.replServer.setPrompt("> ");
+    }
+
     initialize(){
         if (app_settings.options.ReadEvaluate.Allowed) {
             this.setREPL();

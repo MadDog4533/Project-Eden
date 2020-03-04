@@ -16,7 +16,7 @@ import { promises, resolve } from "dns";
 export default class PluginManager extends G10Module {
 
     ModuleName = "PluginManager";
-    ModuleStyle = term.cyan.underline;
+    ModuleStyle = term.magenta.underline;
 
     plugins: object
     constructor(){
@@ -49,8 +49,6 @@ export default class PluginManager extends G10Module {
             // Log the error stack for Plugin Developer debugging
             console.error(`%${this.ModuleName}%`, this.ModuleStyle, ex.stack);
             console.error(`%${this.ModuleName}%`, this.ModuleStyle, "Failed to load plugin " + _plugin);
-
-            //return Promise.reject(e);
         }
     }
 
@@ -76,7 +74,6 @@ export default class PluginManager extends G10Module {
             return Promise.resolve();
         } catch (e) {
             console.error(e.stack);
-            //return Promise.reject(e);
         }
     }
 
