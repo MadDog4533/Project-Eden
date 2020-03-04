@@ -11,7 +11,7 @@ import app_config from "./config/app.json";
 import AppUsage from "./usage.json";
 
 // Set the global directory for easier pathing
-global.App_Dir = __dirname;
+globalThis.App_Dir = __dirname;
 
 const env = process.env;
 
@@ -33,7 +33,6 @@ function main(){
 }
 
 function checkArgs(args: Array<string>): void{
-    console.log(args);
     for (let i = 0; i < args.length; i++){
         if (args[i] == "--inspect") {
             app_config.options.ReadEvaluate.Allowed = true;

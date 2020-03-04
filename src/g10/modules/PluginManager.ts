@@ -32,7 +32,7 @@ export default class PluginManager extends G10Module {
         try {
             // Bypass ECMA Module limitations of context from inline require of contextual file
             // Cast Plugin to its parent class
-            let i_plugin: EdenPlugin = new (require(path.join(global.App_Dir, "plugins", _plugin)))();
+            let i_plugin: EdenPlugin = new (require(path.join(globalThis.App_Dir, "plugins", _plugin)))();
             // Call plugins onStart method with synchronous blocking
             await i_plugin.onStart();
             // Log that the plugin has successfully loaded and continue loading others
@@ -47,18 +47,19 @@ export default class PluginManager extends G10Module {
             // Error Casting to expose ex properties
             let ex: Error = e;
             // Log the error stack for Plugin Developer debugging
-            console.error(this.ModuleName, ex.stack);
+            console.error(`%${this.ModuleName}%`, this.ModuleStyle, ex.stack);
+            console.error(`%${this.ModuleName}%`, this.ModuleStyle, "Failed to load plugin " + _plugin);
 
-            return Promise.reject(e);
+            //return Promise.reject(e);
         }
     }
 
     protected async parseFiles(){
         try {
-            let items = await readdir(path.join(global.App_Dir, "plugins"));
+            let items = await readdir(path.join(globalThis.App_Dir, "plugins"));
             for (let i = 0; i < items.length; i++){
                 let item = items[i];
-                let item_stat = await stat(path.join(global.App_Dir, "plugins", item));
+                let item_stat = await stat(path.join(globalThis.App_Dir, "plugins", item));
                 if (item_stat.isFile()){
                     if (path.extname(item) == ".js"){
                         await this.loadPlugin(item);
@@ -67,7 +68,7 @@ export default class PluginManager extends G10Module {
 
                 // Search directory
                 if (item_stat.isDirectory()){
-                    let t = await readdir(path.join(global.App_Dir, "plugins", item));
+                    let t = await readdir(path.join(globalThis.App_Dir, "plugins", item));
                     // Find plugin configs and usage files
                     //if (t.forEach(item) => { parsePluginFile(item)});
                 }
@@ -75,13 +76,13 @@ export default class PluginManager extends G10Module {
             return Promise.resolve();
         } catch (e) {
             console.error(e.stack);
-            return Promise.reject(e);
+            //return Promise.reject(e);
         }
     }
 
     public async loadPlugins(): Promise<void> {
         return new Promise((Resolve, Reject) => {
-            this.parseFiles().then(Resolve).catch(Reject);
+            this.parseFiles().then(Resolve);
         });
     }
 
