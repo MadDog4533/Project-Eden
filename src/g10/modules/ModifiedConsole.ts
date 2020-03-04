@@ -75,19 +75,19 @@ const ConsoleFactory = {
 
 
         ConsoleFactory.setLine();
-        term.cyan('[Info]: ');
+        term.cyan('[Info]:');
         ConsoleFactory.termify(module, options);
     },
 
     error(module, ...options: Array<string | Terminal.CTerminal>){
         ConsoleFactory.setLine();
-        term.red('[Error]: ');
+        term.red('[Error]:');
         ConsoleFactory.termify(module, options);
     },
 
     debug(data: string, ...options: Array<any>){
         ConsoleFactory.setLine();
-        term.yellow("[Debug]: ");
+        term.yellow("[Debug]:");
         term.defaultColor(data);
         term.defaultColor(' ');
         for (let i = 0; i < options.length; i++){
@@ -103,6 +103,7 @@ const ConsoleFactory = {
     },
 
     termify(module, options: Array<string | Terminal.CTerminal>){
+        term.column(10);
         if (!module){
             term.red.strike(undefined);
             term('\n');
@@ -153,6 +154,7 @@ const ConsoleFactory = {
                     continue;
                 }
             } else if (typeof option == "object") {
+                // Implement OLD Console to avoid this mess
                 term('\n');
                 let a = JSON.stringify(option)
                 a = a.replace(/[{]/gi, "\n{\n");
