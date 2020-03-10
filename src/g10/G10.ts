@@ -60,7 +60,7 @@ class G10 {
             // Load ConsoleInterpreter Module and add G10 to repl context
             console.log(this.EngineName, "Initializing ConsoleInterpreter");
             console.log(this.EngineName, this);
-            (await (<ConsoleInterpreter> this.Modules.add(new ConsoleInterpreter)).initialize()).addContext("G101", this);
+            (await (<ConsoleInterpreter> this.Modules.add(new ConsoleInterpreter)).initialize()).addContext("G10", this);
         } catch (e) {
             // Error Type Cast
             let ex: Error = e;
