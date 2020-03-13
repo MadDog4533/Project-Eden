@@ -1,0 +1,7 @@
+{
+    "Modules": {
+        "PluginManager": {
+            "Mode": "strict"
+        }
+    }
+}
