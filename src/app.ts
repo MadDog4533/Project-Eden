@@ -11,7 +11,7 @@ import app_config from "./config/app.json";
 import AppUsage from "./usage.json";
 
 // Set the global directory for easier pathing
-global.App_Dir = __dirname;
+globalThis.App_Dir = __dirname;
 
 const env = process.env;
 
