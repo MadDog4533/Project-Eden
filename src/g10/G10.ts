@@ -34,6 +34,8 @@ class G10 {
         console.log("  Powered By the G10 Engine");
         console.log("  http://g10.enprime.net");
         console.log("");
+
+        globalThis.G10 = this;
     }
 
     public async Initialize(): Promise<boolean>{
@@ -57,6 +59,7 @@ class G10 {
 
             // Load ConsoleInterpreter Module and add G10 to repl context
             console.log(this.EngineName, "Initializing ConsoleInterpreter");
+            console.log(this.EngineName, this);
             (await (<ConsoleInterpreter> this.Modules.add(new ConsoleInterpreter)).initialize()).addContext("G10", this);
         } catch (e) {
             // Error Type Cast
@@ -66,9 +69,10 @@ class G10 {
         return Promise.resolve(true);
     }
 
-    static interface(module: string){
+    interface(_module: string): G10Module {
+        return this.Modules[_module];
     }
 }
 
-namespace G10 {}
+namespace G10 {} 
 export = G10;

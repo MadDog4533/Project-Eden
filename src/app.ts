@@ -33,7 +33,6 @@ function main(){
 }
 
 function checkArgs(args: Array<string>): void{
-    console.log(args);
     for (let i = 0; i < args.length; i++){
         if (args[i] == "--inspect") {
             app_config.options.ReadEvaluate.Allowed = true;

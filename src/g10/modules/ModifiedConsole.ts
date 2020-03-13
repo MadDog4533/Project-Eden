@@ -2,6 +2,8 @@ import G10Module = require("../G10Module");
 import { terminal  as term, stringWidth, Terminal, terminal} from "terminal-kit";
 import { WriteStream } from "fs";
 import { WritableOptions } from "stream";
+const G10 = require('../G10');
+import ConsoleInterpreter from "./ConsoleInterpreter";
 
 
 ///
@@ -73,19 +75,19 @@ const ConsoleFactory = {
 
 
         ConsoleFactory.setLine();
-        term.cyan('[Info]: ');
+        term.cyan('[Info]:');
         ConsoleFactory.termify(module, options);
     },
 
     error(module, ...options: Array<string | Terminal.CTerminal>){
         ConsoleFactory.setLine();
-        term.red('[Error]');
+        term.red('[Error]:');
         ConsoleFactory.termify(module, options);
     },
 
     debug(data: string, ...options: Array<any>){
         ConsoleFactory.setLine();
-        term.yellow("[Debug]: ");
+        term.yellow("[Debug]:");
         term.defaultColor(data);
         term.defaultColor(' ');
         for (let i = 0; i < options.length; i++){
@@ -95,10 +97,13 @@ const ConsoleFactory = {
     },
 
     setLine(){
+        term.eraseLine();
+        term.column(0);
         return;
     },
 
     termify(module, options: Array<string | Terminal.CTerminal>){
+        term.column(10);
         if (!module){
             term.red.strike(undefined);
             term('\n');
@@ -148,8 +153,18 @@ const ConsoleFactory = {
                     term(option);
                     continue;
                 }
+            } else if (typeof option == "object") {
+                // Implement OLD Console to avoid this mess
+                term('\n');
+                let a = JSON.stringify(option)
+                a = a.replace(/[{]/gi, "\n{\n");
+                a = a.replace(/[}]/gi, "\n}\n");
+                a = a.replace(/[,]/gi, ",\n");
+                term(a);
             }
         }
         term('\n');
+        term(globalThis.G10.interface("ConsoleIntepreter"));
+        //(<ConsoleInterpreter> globalThis.G10.interface("ConsoleIntepreter")).printPrompt();
     }
 }

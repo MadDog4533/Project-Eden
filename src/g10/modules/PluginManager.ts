@@ -18,7 +18,7 @@ import G10Settings from "../config/g10settings.json";
 export default class PluginManager extends G10Module {
 
     ModuleName = "PluginManager";
-    ModuleStyle = term.cyan.underline;
+    ModuleStyle = term.magenta.underline;
 
     plugins: object
     constructor(){
@@ -54,6 +54,9 @@ export default class PluginManager extends G10Module {
             // Log the error stack for Plugin Developer debugging
             console.error(this.ModuleName, ex.stack);
 
+            console.error(`%${this.ModuleName}%`, this.ModuleStyle, ex.stack);
+            console.error(`%${this.ModuleName}%`, this.ModuleStyle, "Failed to load plugin " + _plugin);
+
             if (G10Settings.Modules.PluginManager.Mode == "Strict")
                 return Promise.reject(e);
 
@@ -83,13 +86,12 @@ export default class PluginManager extends G10Module {
             return Promise.resolve();
         } catch (e) {
             console.error(e.stack);
-            return Promise.reject(e);
         }
     }
 
     public async loadPlugins(): Promise<void> {
         return new Promise((Resolve, Reject) => {
-            this.parseFiles().then(Resolve).catch(Reject);
+            this.parseFiles().then(Resolve);
         });
     }
 
