@@ -3,6 +3,7 @@ import readline from "readline";
 import { terminal as term } from "terminal-kit";
 import repl, { REPLServer } from "repl";
 import * as app_settings from "../../config/app.json";
+import G10 = require("../G10");
 
 // Messing around with Read evaluate print loop
 
@@ -18,7 +19,7 @@ export default class ConsoleInterpreter extends G10Module {
         this.replServer.defineCommand('stop', {
             help: 'Gracefully shutdown server',
             action(){
-                console.log("PROCESS", "Closing server");
+                console.info("PROCESS", "Closing server");
                 process.exit(0);
             }
         });
@@ -48,9 +49,9 @@ export default class ConsoleInterpreter extends G10Module {
     initialize(){
         if (app_settings.options.ReadEvaluate.Allowed) {
             this.setREPL();
-            console.log(`%${this.ModuleName}%`, term.yellow.underline, " Read-Eval-Print-Loop Established");
+            console.info(`%${this.ModuleName}%`, term.yellow.underline, " Read-Eval-Print-Loop Established");
         } else {
-            console.log(`%${this.ModuleName}%`, term.yellow.underline, " Skipping Read-Eval, set in config to enable");
+            console.info(`%${this.ModuleName}%`, term.yellow.underline, " Skipping Read-Eval, set in config to enable");
         }
         return Promise.resolve(this);
 
