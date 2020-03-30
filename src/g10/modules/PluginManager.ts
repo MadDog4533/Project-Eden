@@ -41,7 +41,7 @@ export default class PluginManager extends G10Module {
             // Call plugins onStart method with synchronous blocking
             await i_plugin.onStart();
             // Log that the plugin has successfully loaded and continue loading others
-            console.log(`%${this.ModuleName}%`, term.magenta.underline, i_plugin.Name, "Loaded");
+            console.info(`%${this.ModuleName}%`, term.magenta.underline, i_plugin.Name, "Loaded");
             
             // Decorator logic add to 
             if (i_plugin['instanceable'])
@@ -49,13 +49,24 @@ export default class PluginManager extends G10Module {
 
                 return Promise.resolve();
         } catch (e){
+
             // Error Casting to expose ex properties
             let ex: Error = e;
-            // Log the error stack for Plugin Developer debugging
-            console.error(this.ModuleName, ex.stack);
 
-            console.error(`%${this.ModuleName}%`, this.ModuleStyle, ex.stack);
+            // PrintRecomendations to fix plugin
+
+            
+            // Log the error stack for Plugin Developer debugging
+            term('-----------------------------------------------\n');
             console.error(`%${this.ModuleName}%`, this.ModuleStyle, "Failed to load plugin " + _plugin);
+            term('-----------------------------------------------\n');
+            console.error(`%${this.ModuleName}%`, this.ModuleStyle, ex.stack);
+            term('-----------------------------------------------\n');
+            term('Fix suggestion:\n')
+            if (ex.message == "require(...) is not a constructor")
+                term("Try exporting your plugin\n");
+
+            term('-----------------------------------------------\n');
 
             if (G10Settings.Modules.PluginManager.Mode == "Strict")
                 return Promise.reject(e);
