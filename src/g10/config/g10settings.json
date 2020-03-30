@@ -1,7 +1,23 @@
 {
     "Modules": {
         "PluginManager": {
+            "Enabled": true,
             "Mode": "strict"
+        },
+        "IMAP4": {
+            "Enabled": true,
+            "ServerSettings": {
+                "Port": 143
+            }
+        }, 
+        "WebServer": {
+            "Enabled": true,
+            "http": {
+                "port": 80
+            }, 
+            "https": {
+                "port": 443
+            }
         }
     }
 }
