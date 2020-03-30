@@ -45,8 +45,7 @@ export default class ModifiedConsole extends G10Module {
     }
 
     initialize() {
-        const oldlog = console.log;
-        console.log = ConsoleFactory.log;
+        console.info  = ConsoleFactory.info;
         console.error = ConsoleFactory.error;
         console.debug = ConsoleFactory.debug;
 
@@ -65,6 +64,20 @@ const ConsoleFactory = {
         //return (process.stdout = stream);
     },
 
+    info(module: string, ...options: Array<string | Terminal.CTerminal>){
+        // Also pipe to any writeable streams for added compatiblity.
+        for (let i = 0; i < ModifiedConsole.Stdout.length; i++){
+            term(ModifiedConsole.Stdout[i]);
+            //ModifiedConsole.Stdout[i].write(module + " " + options);
+        }
+
+
+        ConsoleFactory.setLine();
+        term.cyan('[Info]:');
+        ConsoleFactory.termify(module, options);
+    },
+
+    //Keep old console
     log(module: string, ...options: Array<string | Terminal.CTerminal>) {
 
         // Also pipe to any writeable streams for added compatiblity.
@@ -88,6 +101,7 @@ const ConsoleFactory = {
     debug(data: string, ...options: Array<any>){
         ConsoleFactory.setLine();
         term.yellow("[Debug]:");
+        term.column(10);
         term.defaultColor(data);
         term.defaultColor(' ');
         for (let i = 0; i < options.length; i++){
