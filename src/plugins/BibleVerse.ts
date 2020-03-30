@@ -7,3 +7,5 @@ class BibleVerse extends EdenPlugin {
         return Promise.resolve(true);
     }
 }
+
+export = BibleVerse;
