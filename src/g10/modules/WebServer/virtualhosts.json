@@ -1,0 +1,26 @@
+{
+    "localhost": {
+        "parentroot": "web/localhost",
+        "redirects": {
+            "/": "http://www.localhost"
+        },
+        "subdomains": {
+            "www": {
+                "index": "index.html",
+                "integration": "document",
+                "documentroot": "./web/localhost/www/",
+                "redirects": {
+                    "/test": "bravechurch.co",
+                    "/**/endpoint.js": "/assets/endpoint.js" 
+                }
+            },
+            "test": {
+                "index": "index.html",
+                "integration": "seamless",
+                "documentroot": "./web/localhost/test/"
+            }
+        }
+    },
+    "prjkteden.com": {
+    }
+}
