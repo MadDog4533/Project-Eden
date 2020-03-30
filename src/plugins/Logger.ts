@@ -13,7 +13,7 @@ class Logger extends EdenPlugin {
 
         for (let i = 0; i < process.argv.length; i++){
             if (process.argv[i] == "--out" && process.argv[i + 1] != undefined){
-                console.log("Logger", "Output file: " + process.argv[i + 1]);
+                console.info("Logger", "Output file: " + process.argv[i + 1]);
             }
         }
         return Promise.resolve(true);
