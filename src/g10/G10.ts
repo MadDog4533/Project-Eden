@@ -1,8 +1,21 @@
+// G10 Module imports
 import PluginManager from "./modules/PluginManager";
 import WebServer from "./modules/WebServer";
 import ModifiedConsole from "./modules/ModifiedConsole";
 import ConsoleInterpreter from "./modules/ConsoleInterpreter";
+import IMAP4 from "./modules/IMAP4/IMAP4";
+
+// Generic Module Import base class of all modules
 import G10Module = require("./G10Module");
+
+import G10Settings from "./config/g10settings.json";
+
+
+// How to cast G10 instance for autocomplete
+// (<G10> globalThis.G10).property
+// (<G10> globalThis.G10).method()
+// (<G10> globalThis.G10).interface("PluginManager") // Remove Comments
+
 
 // Module add prototype
 // Cast to explicit module type for better chaining
@@ -27,6 +40,8 @@ class G10 {
 
     running: boolean;
 
+    Config = G10Settings;
+
     constructor(){
         // Show G10 Splash and initailize all G10 Classes
         console.log("")
@@ -35,6 +50,7 @@ class G10 {
         console.log("  http://g10.enprime.net");
         console.log("");
 
+        // Required to fetch G10 instance for Module instancing
         globalThis.G10 = this;
     }
 
@@ -43,24 +59,28 @@ class G10 {
         // After app and G10 splashes, modify console logging
         await this.Modules.add(new ModifiedConsole()).initialize();
 
-        console.log("G10", "Initializing...");
+        console.info("G10", "Initializing...");
         
 
         // Synchronously Load every G10 Module to avoid conflicts
         try {
         
             // Load PluginManager module and initialize plugins
-            console.log(this.EngineName, "Loading Plugins");
+            console.info(this.EngineName, "Loading Plugins");
             await (<PluginManager> this.Modules.add(new PluginManager)).loadPlugins();
 
             // Load WebServers Module
-            console.log(this.EngineName, "Loading WebServer");
+            console.info(this.EngineName, "Loading WebServer");
             await (<WebServer> this.Modules.add(new WebServer)).initialize();
 
+            // Load IMAP4 Server
+            console.info(this.EngineName, "Starting IMAP4 Server");
+            await (<IMAP4> this.Modules.add(new IMAP4)).initialize();
+
             // Load ConsoleInterpreter Module and add G10 to repl context
-            console.log(this.EngineName, "Initializing ConsoleInterpreter");
-            console.log(this.EngineName, this);
+            console.info(this.EngineName, "Initializing ConsoleInterpreter");
             (await (<ConsoleInterpreter> this.Modules.add(new ConsoleInterpreter)).initialize()).addContext("G10", this);
+
         } catch (e) {
             // Error Type Cast
             let ex: Error = e;
