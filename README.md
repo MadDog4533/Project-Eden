@@ -3,7 +3,7 @@
 Project Eden, is an all in one, Church Managment Platform, Content Management System, and Relationship Management Software program. The goal of this project is to easily deploy all web services and manage church/non-profit org data, in a powerful but easy to use
 maner. 
 
-## Version Control
+## Version Control 
 
 Versioning is controlled by NPM and updated through its package.json
 
