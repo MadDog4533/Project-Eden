@@ -4,6 +4,7 @@ import WebServer from "./modules/WebServer";
 import ModifiedConsole from "./modules/ModifiedConsole";
 import ConsoleInterpreter from "./modules/ConsoleInterpreter";
 import IMAP4 from "./modules/IMAP4/IMAP4";
+import EdenSQL from "./modules/EdenSql";
 
 // Generic Module Import base class of all modules
 import G10Module = require("./G10Module");
@@ -61,7 +62,7 @@ class G10 {
 
         console.info("G10", "Initializing...");
         
-
+        // Move to dedicated method and check config for enabled modules
         // Synchronously Load every G10 Module to avoid conflicts
         try {
         
@@ -80,6 +81,10 @@ class G10 {
             // Load ConsoleInterpreter Module and add G10 to repl context
             console.info(this.EngineName, "Initializing ConsoleInterpreter");
             (await (<ConsoleInterpreter> this.Modules.add(new ConsoleInterpreter)).initialize()).addContext("G10", this);
+
+            // Start the SQL Module and create the connection
+            console.info(this.EngineName, "Creating Database Connection")
+            await (<EdenSQL> this.Modules.add(new EdenSQL)).initialize();
 
         } catch (e) {
             // Error Type Cast

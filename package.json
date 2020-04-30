@@ -1,6 +1,6 @@
 {
   "name": "Eden",
-  "version": "0.0.9-1",
+  "version": "0.0.9-2",
   "description": "",
   "main": "app.js",
   "dependencies": {
