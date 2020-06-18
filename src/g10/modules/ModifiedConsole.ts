@@ -16,6 +16,7 @@ import ConsoleInterpreter from "./ConsoleInterpreter";
 // Attach all term functions to EdenTerminal for processing
 // TODO
 // Would like to hook process.stdout to edenterminal to handle the stream
+// Prototype calling module
 class EdenTerminal extends WriteStream{
     constructor(opts?: WritableOptions){
         super(opts);
@@ -45,9 +46,13 @@ export default class ModifiedConsole extends G10Module {
     }
 
     initialize() {
+
+        // Override original NodeJs console functionality
         console.info  = ConsoleFactory.info;
         console.error = ConsoleFactory.error;
         console.debug = ConsoleFactory.debug;
+        console.warn  = ConsoleFactory.warn;
+        //console.log   = ConsoleFactory.test;
 
 
         // Set Stdout redirect
@@ -77,7 +82,8 @@ const ConsoleFactory = {
         ConsoleFactory.termify(module, options);
     },
 
-    //Keep old console
+    // Keep old console
+    // Not "Factorizing"
     log(module: string, ...options: Array<string | Terminal.CTerminal>) {
 
         // Also pipe to any writeable streams for added compatiblity.
@@ -98,6 +104,12 @@ const ConsoleFactory = {
         ConsoleFactory.termify(module, options);
     },
 
+    warn(module, ...options: Array<string | Terminal.CTerminal>){
+        ConsoleFactory.setLine();
+        term.yellow('[Warn]: ');
+        ConsoleFactory.termify(module, options);
+    },
+
     debug(data: string, ...options: Array<any>){
         ConsoleFactory.setLine();
         term.yellow("[Debug]:");
@@ -108,6 +120,12 @@ const ConsoleFactory = {
             term.defaultColor(options[i] + ' ');
         }
         term('\n');
+    },
+
+    test(...options: Array<string | Terminal.CTerminal>){
+        return function(target: any, propertyKey: string, descriptor: any){
+            console.log(descriptor);
+        }
     },
 
     setLine(){
@@ -182,3 +200,7 @@ const ConsoleFactory = {
         //(<ConsoleInterpreter> globalThis.G10.interface("ConsoleIntepreter")).printPrompt();
     }
 }
+
+
+
+// Mess around with being able to find the calling module when logging
