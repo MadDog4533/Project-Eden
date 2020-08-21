@@ -1,6 +1,8 @@
 import EdenPlugin = require("../g10/modules/EdenPlugin");
 import https from "https";
-import * as config from "./BibleVerse/config.json";
+import * as fs from "fs"; 
+
+var config;
 
 const options: https.RequestOptions = {
     hostname: 'developers.youversionapi.com',
@@ -8,7 +10,7 @@ const options: https.RequestOptions = {
     headers: {
         'User-Agent': 'Prjk Eden 0.0.9-14',
         accept: 'application/json',
-        'X-YouVersion-Developer-Token': config.API_KEY,
+        'X-YouVersion-Developer-Token': config.API_KEY == undefined ? '' : config.API_KEY,
     }
 }
 
@@ -20,6 +22,21 @@ class BibleVerse extends EdenPlugin {
     }
 
     onStart = function(){
+
+        // Check if Plugin Config Directory exists
+        fs.exists( './BibleVerse/', (exists) => {
+            if (!exists)
+                fs.mkdirSync('./BibleVerse');
+
+            fs.exists('./BibleVerse/config.json', (exists) => {
+                if (!exists)
+                    fs.writeFileSync('.BibleVerse/config.json', '{}'); 
+
+                config = require('./BibleVerse/config.json');
+            });
+        }); 
+
+
 
         if (!config)
             return Promise.reject("Cannot Find Config File");
@@ -44,3 +61,5 @@ class BibleVerse extends EdenPlugin {
 }
 
 export = BibleVerse;
+
+//Todo: Fix TypeError: Cannot read property 'API_KEY' of undefined
