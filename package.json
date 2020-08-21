@@ -1,6 +1,6 @@
 {
   "name": "Eden",
-  "version": "0.0.9-14",
+  "version": "0.0.9-16",
   "description": "",
   "main": "app.js",
   "dependencies": {
@@ -9,7 +9,7 @@
     "@types/node": "^13.7.7",
     "@types/terminal-kit": "^1.28.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1",
+    "mariadb": "^2.4.2",
     "terminal-kit": "^1.32.3"
   },
   "devDependencies": {},
