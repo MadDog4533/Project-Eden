@@ -21,20 +21,14 @@ export default class EdenSQL extends G10Module {
            console.log(this.sql_conn.isValid());
         });
 
-        this.sql_connection = mysql.createConnection(App_Settings.database);
+        //this.sql_connection = mysql.createConnection(App_Settings.database);
 
-        return new Promise((Resolve, Reject) => {
-            this.sql_connection.connect((err, all) => {
-                if (err.fatal) 
-                    console.warn(`%${this.ModuleName}%`, this.ModuleStyle, "SQL Connection Failed, Please check your SQL Server Configuration aswell as the Eden Documentation and Congiguration File!");
-                
-                if (err) Reject(err);
+        //return new Promise((Resolve, Reject) => {
+            //
+    }
 
-                // Check overload 'args'
-                console.log(all);
-                Resolve();
-            });
-        })
+    onDisable() {
+        return Promise.resolve();
     }
 }
 
