@@ -4,6 +4,8 @@ import { terminal as term } from "terminal-kit";
 import repl, { REPLServer } from "repl";
 import * as app_settings from "../../config/app.json";
 import G10 = require("../G10");
+import os from "os";
+import { exec } from "child_process";
 
 // Messing around with Read evaluate print loop
 
@@ -21,6 +23,35 @@ export default class ConsoleInterpreter extends G10Module {
             action(){
                 console.info("PROCESS", "Closing server");
                 process.exit(0);
+            }
+        });
+
+        this.replServer.defineCommand('exec', {
+            help: 'Execute an OS shell command',
+            action(cmd){
+
+                console.log(cmd);
+
+                if (cmd.length < 1){
+                    console.info("REPL Exec", "Command cannot be blank or empty");
+                    return;
+                }
+
+                
+                exec(cmd, (error, out, err) => {
+                    if (error)
+                        console.error("REPL Exec", error.message);
+
+                    console.log(out);
+                })
+            }
+        });
+
+        this.replServer.defineCommand('reload', {
+            help: 'Attempt to reload all modules and plugins',
+            action(){
+                console.info("SERVER", "Reloading...");
+                (<G10> globalThis.G10).Initialize();
             }
         });
         
@@ -44,6 +75,10 @@ export default class ConsoleInterpreter extends G10Module {
 
     printPrompt(){
         this.replServer.setPrompt("> ");
+    }
+
+    linuxLike(){
+        this.replServer.setPrompt(`${os.userInfo().username}@require("os")${os.hostname}:${process.cwd}`);
     }
 
     initialize(){
