@@ -10,7 +10,7 @@
     "@types/terminal-kit": "^1.28.2",
     "express": "^4.17.1",
     "mariadb": "^2.4.2",
-    "terminal-kit": "^1.42.0"
+    "terminal-kit": "^1.49.4"
   },
   "devDependencies": {},
   "scripts": {
